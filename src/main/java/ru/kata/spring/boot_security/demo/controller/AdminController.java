@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
@@ -21,11 +22,18 @@ public class AdminController {
         this.userService = userService;
     }
 
+    private RoleService roleService;
+
+    @Autowired
+    public void setUserService(RoleService roleService) {
+        this.roleService = roleService;
+    }
+
     @GetMapping("/admin")
     public String allUser(Model model, Principal principal) {
         model.addAttribute("userPrincipal", userService.findByUsername(principal.getName()));
         model.addAttribute("users", userService.allUsers());
-        model.addAttribute("roleList", userService.allRoles());
+        model.addAttribute("roleList", roleService.allRoles());
         model.addAttribute("newUser", new User());
         return "admin";
     }
@@ -40,7 +48,7 @@ public class AdminController {
             user.setRoles(userService.getUserId(id).getRoles());
         } else {
             for (String role : roles) {
-                roleSet.add(userService.findRoleByName(role));
+                roleSet.add(roleService.findRoleByName(role));
                 user.setRoles(roleSet);
             }
         }

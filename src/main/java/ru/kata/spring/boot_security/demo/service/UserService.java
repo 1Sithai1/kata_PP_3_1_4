@@ -72,13 +72,7 @@ public class UserService implements UserDetailsService {
         return userDAO.findUserByID(id);
     }
 
-    public List<Role> allRoles() {
-        return userDAO.allRoles();
-    }
 
-    public Role findRoleByName(String roleName) {
-        return userDAO.findRoleByName(roleName);
-    }
 
     public String userPass(Long id){
         return userDAO.userPass(id);

@@ -20,10 +20,5 @@ public interface UserDAO {
 
     User findUserByID(Long id);
 
-    List<Role> allRoles();
-
-    Role findRoleByName(String roleName);
-
-
     String userPass(Long id);
 }

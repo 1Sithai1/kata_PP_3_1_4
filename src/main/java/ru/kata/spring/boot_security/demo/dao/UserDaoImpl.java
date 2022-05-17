@@ -1,8 +1,10 @@
 package ru.kata.spring.boot_security.demo.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 
 
 import javax.persistence.EntityManager;
@@ -16,6 +18,13 @@ public class UserDaoImpl implements UserDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
+    private RoleService roleService;
+
+    @Autowired
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
+    }
+
     @Override
     public List<User> allUsers() {
         return entityManager.createQuery("select u from User u", User.class).getResultList();
@@ -23,7 +32,7 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public void addUser(User user) {
-        Role roleUser = findRoleByName("USER");
+        Role roleUser = roleService.findRoleByName("USER");
         if (user.getRoles().isEmpty()) {
             user.addRole(roleUser);
         }
@@ -67,19 +76,5 @@ public class UserDaoImpl implements UserDAO {
         TypedQuery<String> query = entityManager
                 .createQuery("select u.password from User u where u.id = :userId", String.class);
         return query.setParameter("userId", id).getSingleResult();
-    }
-
-    // ******************************* Роли *********************************************************
-    @Override
-    public List<Role> allRoles() {
-        return entityManager.createQuery("select r from Role r", Role.class).getResultList();
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public Role findRoleByName(String roleName) {
-        TypedQuery<Role> query = entityManager
-                .createQuery("select r from Role r where r.name = :roleName", Role.class);
-        return query.setParameter("roleName", roleName).getSingleResult();
     }
 }

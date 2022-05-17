@@ -1,18 +1,16 @@
-package ru.kata.spring.boot_security.demo.controller;
+package ru.kata.spring.boot_security.demo.RESTcontroller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class MyRestController {
+public class AdminRestController {
 
     private UserService userService;
 
@@ -32,20 +30,7 @@ public class MyRestController {
         return userService.findUserByID(id);
     }
 
-    @GetMapping("/user")
-    public User getUserbyName(Principal principal) {
-        return userService.findByUsername(principal.getName());
-    }
 
-    @GetMapping("/roles")
-    public List<Role> allRestRoles() {
-        return userService.allRoles();
-    }
-
-    @GetMapping("/roles/{role}")
-    public Role getRoleByName(@PathVariable String role) {
-        return userService.findRoleByName(role);
-    }
 
     @PostMapping()
     public void newUser(@RequestBody User user) {
