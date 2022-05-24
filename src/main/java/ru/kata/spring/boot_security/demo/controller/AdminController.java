@@ -4,15 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Controller
 public class AdminController {
@@ -40,20 +36,8 @@ public class AdminController {
     }
 
     @PatchMapping("/admin/edit/{id}")
-    public String update(@ModelAttribute("editUser")
-                         User user,
-                         @RequestParam(value = "roles", required = false) String[] roles,
+    public String update(@ModelAttribute("editUser") User user,
                          @PathVariable("id") Long id) {
-        Set<Role> roleSet = new HashSet<>();
-        List<Role> allRoles = roleService.allRoles();
-        for (String roleByForm : roles) {
-            for (Role role : allRoles) {
-                if (role.getAuthority().equals(roleByForm)) {
-                    roleSet.add(role);
-                }
-            }
-        }
-        user.setRoles(roleSet);
         userService.editUser(id, user);
         return "redirect:/admin";
     }

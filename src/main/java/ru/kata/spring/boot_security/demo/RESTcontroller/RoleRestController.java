@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.RESTcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +23,12 @@ public class RoleRestController {
     }
 
     @GetMapping("/roles")
-    public List<Role> allRestRoles() {
-        return roleService.allRoles();
+    public ResponseEntity<List<Role>> allRestRoles() {
+        return ResponseEntity.ok(roleService.allRoles());
     }
 
     @GetMapping("/roles/{role}")
-    public Role getRoleByName(@PathVariable String role) {
-        return roleService.findRoleByName(role);
+    public ResponseEntity<Role> getRoleByName(@PathVariable String role) {
+        return ResponseEntity.ok(roleService.findRoleByName(role));
     }
 }

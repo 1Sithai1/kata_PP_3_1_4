@@ -8,17 +8,17 @@ import java.util.List;
 public interface UserDAO {
     List<User> allUsers();
 
-    void addUser(User user);
+    User addUser(User user);
 
-    void deleteUser(Long id);
+    User deleteUser(Long id);
 
-    void editUser(Long id, User user);
+    User editUser(Long id, User user);
 
     User getUserId(Long id);
 
     User findByUsername(String username);
 
-    User findUserByID(Long id);
+    User findUserById(Long id);
 
     String userPass(Long id);
 }

@@ -9,7 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserDAO;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
@@ -32,23 +31,23 @@ public class UserService implements UserDetailsService {
         return userDAO.allUsers();
     }
 
-    public void addUser(User user) {
+    public User addUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userDAO.addUser(user);
+        return userDAO.addUser(user);
     }
 
-    public void deleteUser(Long id) {
-        userDAO.deleteUser(id);
+    public User deleteUser(Long id) {
+        return userDAO.deleteUser(id);
     }
 
-    public void editUser(Long id, User user) {
+    public User editUser(Long id, User user) {
         String rawPass = userPass(id);
         if (user.getPassword().equals(rawPass) || user.getPassword().equals("")){
             user.setPassword(rawPass);
-            userDAO.editUser(id, user);
+            return userDAO.editUser(id, user);
         } else {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            userDAO.editUser(id, user);
+            return userDAO.editUser(id, user);
         }
     }
 
@@ -68,8 +67,8 @@ public class UserService implements UserDetailsService {
         return userDAO.findByUsername(username);
     }
 
-    public User findUserByID(Long id) {
-        return userDAO.findUserByID(id);
+    public User findUserById(Long id) {
+        return userDAO.findUserById(id);
     }
 
 

@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.RESTcontroller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -20,30 +21,28 @@ public class AdminRestController {
     }
 
     @GetMapping("admin")
-    public List<User> allRestUsers() {
-        return userService.allUsers();
+    public ResponseEntity<List<User>> allRestUsers() {
+        return ResponseEntity.ok(userService.allUsers());
     }
 
     @GetMapping("/admin/{id}")
     @ResponseBody
-    public User findUserById(@PathVariable("id") Long id) {
-        return userService.findUserByID(id);
+    public ResponseEntity<User> findUserById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(userService.findUserById(id));
     }
 
-
-
     @PostMapping()
-    public void newUser(@RequestBody User user) {
-        userService.addUser(user);
+    public ResponseEntity<User> newUser(@RequestBody User user) {
+        return ResponseEntity.ok(userService.addUser(user));
     }
 
     @PatchMapping("/admin/{id}")
-    public void editUser(@PathVariable ("id") Long id,@RequestBody User user ) {
-        userService.editUser(id, user);
+    public ResponseEntity<User> editUser(@PathVariable ("id") Long id,@RequestBody User user ) {
+       return ResponseEntity.ok(userService.editUser(id, user));
     }
 
     @DeleteMapping("/admin/{id}")
-    public void deleteUser(@PathVariable ("id") Long id) {
-        userService.deleteUser(id);
+    public ResponseEntity<User> deleteUser(@PathVariable ("id") Long id) {
+       return ResponseEntity.ok(userService.deleteUser(id));
     }
 }

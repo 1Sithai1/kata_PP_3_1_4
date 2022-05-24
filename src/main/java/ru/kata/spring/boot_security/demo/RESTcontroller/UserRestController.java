@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.RESTcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class UserRestController {
     }
 
     @GetMapping("/user")
-    public User getUserbyName(Principal principal) {
-        return userService.findByUsername(principal.getName());
+    public ResponseEntity<User> getUserByName(Principal principal) {
+        return ResponseEntity.ok(userService.findByUsername(principal.getName()));
     }
 }
