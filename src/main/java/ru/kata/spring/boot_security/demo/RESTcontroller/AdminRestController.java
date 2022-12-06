@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -43,6 +44,7 @@ public class AdminRestController {
 
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable ("id") Long id) {
+        LocalDateTime.now();
        return ResponseEntity.ok(userService.deleteUser(id));
     }
 }
