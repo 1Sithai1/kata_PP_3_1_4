@@ -10,4 +10,6 @@ public class UserTestDaoImpl {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+
 }

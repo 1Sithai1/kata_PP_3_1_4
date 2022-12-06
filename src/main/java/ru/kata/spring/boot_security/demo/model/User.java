@@ -1,6 +1,11 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
+import jdk.jfr.Timespan;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,6 +17,9 @@ import java.util.Set;
 
 
 @Entity
+@AllArgsConstructor
+@ToString
+@Builder
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
@@ -88,16 +96,6 @@ public class User implements UserDetails {
 
     public void setAge(byte age) {
         this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "id=" + id +
-                ", name=" + name +
-                ", lastName=" + lastName +
-                ", email=" + email +
-                ", age=" + age +
-                ", roles=" + roles;
     }
 
     @Override

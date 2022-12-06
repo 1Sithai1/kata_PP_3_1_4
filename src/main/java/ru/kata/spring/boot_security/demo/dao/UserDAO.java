@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.dao;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
+import ru.kata.spring.boot_security.demo.model.TestUser;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
@@ -20,4 +22,6 @@ public interface UserDAO {
     User findUserById(Long id);
 
     String userPass(Long id);
+
+    List<TestUser> allTestUser();
 }

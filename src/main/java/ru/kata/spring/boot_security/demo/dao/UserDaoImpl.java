@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.Role;
+import ru.kata.spring.boot_security.demo.model.TestUser;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -30,6 +32,12 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public List<User> allUsers() {
+
+        List<TestUser> users = allTestUser();
+
+        System.out.println(users);
+
+
         return entityManager.createQuery("select u from User u", User.class).getResultList();
     }
 
@@ -55,21 +63,6 @@ public class UserDaoImpl implements UserDAO {
         entityManager.merge(user);
         return null;
     }
-
-//      Данный метод необходим для работы без РЕСТ сервисов
-//    @Override
-//    public void editUser(Long id, User user) {
-//        if (user.getRoles().isEmpty()) {
-//            user.setRoles(getUserId(id).getRoles());
-//        }
-//        Set<Role> idRole = user.getRoles();
-//        Set<Role> newRole = new HashSet<>();
-//        for (Role role : idRole) {
-//            newRole.add(findRoleById(Long.valueOf(role.getName())));
-//        }
-//        user.setRoles(newRole);
-//        entityManager.merge(user);
-//    }
 
     @Override
     public User getUserId(Long id) {
@@ -98,5 +91,21 @@ public class UserDaoImpl implements UserDAO {
         TypedQuery<String> query = entityManager
                 .createQuery("select u.password from User u where u.id = :userId", String.class);
         return query.setParameter("userId", id).getSingleResult();
+    }
+
+    @Override
+    public List<TestUser> allTestUser() {
+
+        EntityGraph<TestUser> entityGraph = entityManager.createEntityGraph(TestUser.class);
+        entityGraph.addAttributeNodes("metadataUser");
+
+        List<TestUser> testUserList = entityManager.createQuery("select tu from TestUser tu", TestUser.class)
+                .setHint("javax.persistence.fetchgraph", entityGraph)
+                .getResultList();
+
+        System.out.println(testUserList);
+
+
+        return testUserList;
     }
 }
