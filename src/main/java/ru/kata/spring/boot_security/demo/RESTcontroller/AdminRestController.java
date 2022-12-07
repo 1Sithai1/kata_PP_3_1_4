@@ -43,6 +43,10 @@ public class AdminRestController {
 
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable ("id") Long id) {
+
+        //Тут добавился какой-то код
+
+
        return ResponseEntity.ok(userService.deleteUser(id));
     }
 }
