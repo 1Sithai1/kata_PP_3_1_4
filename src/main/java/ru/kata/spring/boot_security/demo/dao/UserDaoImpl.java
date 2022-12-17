@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -11,9 +10,7 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class UserDaoImpl implements UserDAO {
@@ -55,21 +52,6 @@ public class UserDaoImpl implements UserDAO {
         entityManager.merge(user);
         return null;
     }
-
-//      Данный метод необходим для работы без РЕСТ сервисов
-//    @Override
-//    public void editUser(Long id, User user) {
-//        if (user.getRoles().isEmpty()) {
-//            user.setRoles(getUserId(id).getRoles());
-//        }
-//        Set<Role> idRole = user.getRoles();
-//        Set<Role> newRole = new HashSet<>();
-//        for (Role role : idRole) {
-//            newRole.add(findRoleById(Long.valueOf(role.getName())));
-//        }
-//        user.setRoles(newRole);
-//        entityManager.merge(user);
-//    }
 
     @Override
     public User getUserId(Long id) {
